@@ -1,3 +1,4 @@
+import { ProjectStatusDropdown } from '@/components/project-status-dropdown'
 import { ProjectsTable } from '@/components/projects-table'
 import { useProjects } from '@/hooks/useProjects'
 import { cn } from '@/lib/utils'
@@ -7,7 +8,9 @@ import { useState } from 'react'
 
 export default function Home() {
   const [page, setPage] = useState(0)
-  const { projects, totalCount, isLastPage, isLoading, isError } = useProjects({ page })
+  const [status, setStatus] = useState<string | undefined>(undefined)
+
+  const { projects, totalCount, isLastPage, isLoading, isError } = useProjects({ page, status })
 
   return (
     <main className='p-8 lg:p-24 space-y-8'>
@@ -27,6 +30,11 @@ export default function Home() {
         </div>
       )}
 
+      <div className='space-y-2'>
+        <p className='font-bold'>Status</p>
+        <ProjectStatusDropdown status={status} onStatusChange={setStatus} />
+      </div>
+
       {!isLoading && !isError && (
         <ProjectsTable
           projects={projects}
@@ -39,7 +47,7 @@ export default function Home() {
           type='button'
           onClick={() => setPage((prev) => prev - 1)}
           disabled={page === 0}
-          className={cn('bg-emerald-500 w-8 h-8 flex items-center justify-center rounded-full text-white', page === 0 && 'invisible')}
+          className={cn('bg-emerald-600 w-8 h-8 flex items-center justify-center rounded-full text-white', page === 0 && 'invisible')}
         >
           <ArrowLeft className='w-4 h-4' />
         </button>
@@ -50,7 +58,7 @@ export default function Home() {
           type='button'
           onClick={() => setPage((prev) => prev + 1)}
           disabled={isLastPage}
-          className={cn('bg-emerald-500 w-8 h-8 flex items-center justify-center rounded-full text-white', isLastPage && 'invisible')}
+          className={cn('bg-emerald-600 w-8 h-8 flex items-center justify-center rounded-full text-white', isLastPage && 'invisible')}
         >
           <ArrowRight className='w-4 h-4' />
         </button>

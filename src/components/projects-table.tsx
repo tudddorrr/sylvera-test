@@ -11,9 +11,10 @@ type Props = {
 export function ProjectsTable({ projects, totalCount }: Props) {
   return (
     <Table>
+      <TableCaption>Showing {projects.length} of {totalCount} projects</TableCaption>
       <TableHeader>
         <TableRow>
-          {['ID', 'Status', 'URL', 'Status', 'Country'].map((header) => (
+          {['ID', 'Status', 'URL', 'Country'].map((header) => (
             <TableHead key={header} className={cn('font-bold', header === 'Country' ? 'text-right' : '')}>
               {header}
             </TableHead>
@@ -34,16 +35,12 @@ export function ProjectsTable({ projects, totalCount }: Props) {
                 {project.url}
               </Link>
             </TableCell>
-            <TableCell>
-              {project.status}
-            </TableCell>
             <TableCell className={cn('text-right', !project.country && 'text-gray-400')}>
               {project.country ?? 'No country'}
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
-      <TableCaption>Showing {projects.length} of {totalCount} projects</TableCaption>
     </Table>
   )
 }

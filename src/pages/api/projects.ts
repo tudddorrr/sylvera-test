@@ -1,15 +1,22 @@
 import { db } from '@/lib/db/db'
-import { projectsTable } from '@/lib/db/schema'
+import { Project } from '@/lib/db/schema'
+import { ProjectsService } from '@/services/projects.service'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Data = {
-  projects: typeof projectsTable.$inferSelect[]
+export type ProjectsIndexResponse = {
+  projects: Project[]
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<ProjectsIndexResponse>,
 ) {
-  const projects = await db.select().from(projectsTable)
+  if (req.method !== 'GET') {
+    res.status(405).end()
+    return
+  }
+
+  const service = new ProjectsService(db)
+  const projects = await service.getProjects()
   res.status(200).json({ projects })
 }

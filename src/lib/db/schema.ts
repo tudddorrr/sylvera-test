@@ -7,3 +7,5 @@ export const projectsTable = sqliteTable('projects', {
   status: text().notNull(),
   country: text()
 })
+
+export type Project = typeof projectsTable.$inferSelect

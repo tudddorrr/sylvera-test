@@ -30,7 +30,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className='space-y-2'>
+      <div className='space-y-2 text-sm'>
         <p className='font-bold'>Status</p>
         <ProjectStatusDropdown status={status} onStatusChange={setStatus} />
       </div>

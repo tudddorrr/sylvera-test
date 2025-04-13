@@ -47,7 +47,7 @@ Drizzle made it particularly easy to swap out databases by allowing me to define
 
 ## Next steps
 
-### User experience
+### User experience
 
 The user experience could be much better by giving users a better loading experience (perhaps with a table skeleton) and more informative error messages. The page lacks empty states to tell users when there are no results - this would be handy when using the filters.
 

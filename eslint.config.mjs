@@ -23,6 +23,10 @@ const eslintConfig = [
       '@stylistic/semi': ['error', 'never'],
       '@stylistic/quotes': ['error', 'single'],
       '@stylistic/jsx-quotes': ['error', 'prefer-single'],
+      '@stylistic/member-delimiter-style': ['error', {
+        multiline: { delimiter: 'none' },
+        singleline: { delimiter: 'comma' }
+      }],
       'no-console': ['warn'],
     }
   },

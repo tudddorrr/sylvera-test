@@ -4,13 +4,17 @@ import { useProjects } from '@/hooks/useProjects'
 import { cn } from '@/lib/utils'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
   const [page, setPage] = useState(0)
   const [status, setStatus] = useState<string | undefined>(undefined)
 
   const { projects, totalCount, isLastPage, isLoading, isError } = useProjects({ page, status })
+
+  useEffect(() => {
+    setPage(0)
+  }, [status])
 
   return (
     <main className='p-8 lg:p-24 space-y-8'>

@@ -2,9 +2,13 @@ import { ProjectsIndexResponse } from '@/pages/api/projects'
 import { useCallback } from 'react'
 import useSWR from 'swr'
 
+type FetcherParams = [string, number, string?]
+
 export function useProjects({ page, status }: { page: number, status?: string }) {
-  const fetcher = useCallback(([url, page, status]: [string, number, string?]) => {
-    return fetch(`${url}?page=${page}${status ? `&status=${status}` : ''}`).then((res) => res.json())
+  const fetcher = useCallback(([url, page, status]: FetcherParams) => {
+    const query = new URLSearchParams({ page: page.toString() })
+    if (status) query.set('status', status)
+    return fetch(`${url}?${query}`).then((res) => res.json())
   }, [])
 
   const { data, error, isLoading, mutate } = useSWR<ProjectsIndexResponse>(

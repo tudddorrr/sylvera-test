@@ -5,6 +5,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 export type ProjectsIndexResponse = {
   projects: Project[]
+  itemsPerPage: number
+  totalCount: number
+  isLastPage: boolean
 }
 
 export default async function handler(
@@ -16,7 +19,25 @@ export default async function handler(
     return
   }
 
+  const { page, status } = req.query
+  if (typeof page !== 'string') {
+    res.status(400).end('Page is required')
+    return
+  }
+
   const service = new ProjectsService(db)
-  const projects = await service.getProjects()
-  res.status(200).json({ projects })
+  const itemsPerPage = 10
+
+  const [projects, totalCount] = await service.getProjects({
+    page: Number(page),
+    limit: itemsPerPage,
+    status: status as string | undefined
+  })
+
+  res.status(200).json({
+    projects,
+    totalCount,
+    itemsPerPage,
+    isLastPage: projects.length < itemsPerPage,
+  })
 }
